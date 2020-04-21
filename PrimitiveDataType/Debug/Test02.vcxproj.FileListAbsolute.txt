@@ -1,0 +1,2 @@
+C:\Users\Owner\Desktop\coding\CPP-Programming-Learning-at-SWEA\Test02\Debug\PrimitiveDataType.exe
+C:\Users\Owner\Desktop\coding\CPP-Programming-Learning-at-SWEA\Test02\Debug\PrimitiveDataType.pdb

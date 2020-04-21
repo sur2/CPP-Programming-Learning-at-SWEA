@@ -123,7 +123,7 @@ SW Expert Academy에서 C++ 학습
 
 
 
-예제 코드
+예제 코드 cout.cpp
 
 ```
 #include <iostream>
@@ -141,6 +141,177 @@ int main()
 	
 	return 0;
 }
+```
 
+
+
+## C++의 데이터 표현 방법
+
+### 지원되는 자료형
+
+자료형의 크기는 프로그램을 실행하는 운영체제마다 다를 수 있으므로 **sizeof 연산자**로 크기를 확인하고 사용
+자료형의 크기를 염두하여 오버플로우(overflow)가 일어나지 않도록 함
+
+#### 기본 자료형
+
+- 논리형
+- 문자형
+- 정수형 : signed는 최상위 비트가 부호를 구분, unsigned는 자료형 전체를 데이터 비트로 사용
+- 실수형
+
+예제 코드 PrimitiveDataType.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+int main(void)
+{
+	cout << "size of bool = " << sizeof(bool) << endl;
+	cout << "size of char = " << sizeof(char) << endl;
+	cout << "size of wchar_t = " << sizeof(wchar_t) << endl;
+	cout << "size of short = " << sizeof(short) << endl;
+	cout << "size of int = " << sizeof(int) << endl;
+	cout << "size of long = " << sizeof(long) << endl;
+	cout << "size of float = " << sizeof(float) << endl;
+	cout << "size of double = " << sizeof(double) << endl;
+	cout << "size of long double = " << sizeof(long double) << endl;
+	cout << "size of short = " << sizeof(short) << endl;
+	cout << "size of short = " << sizeof(short) << endl;
+
+	return 0;
+}
+```
+
+
+
+#### 사용자 정의 자료형
+
+개발자가 정의하여 사용할 수 있는 사용자 정의 자료형
+
+Typedef : 사용자가 새로운 형의 이름을 선언할 수 있도록 해 줌(기존의 자료형에 새로운 이름 부여)
+
+예제 코드 Typedef.cpp
+
+```
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	typedef unsigned short uint16;
+	// 다른 컴파일러(or 플랫폼)에서 사용할 경우 typedef를 변경하여 자료형의 크기를 맞출 수 있다.
+	// int형의 크기가 2Byte(16bit)일 경우 unsign int로 typedef를 변경
+	uint16 port;
+
+	// 2^16 - 1 = 65535
+	port = 65535;
+
+	cout << port << endl;
+
+	return 0;
+}
+```
+
+- 열거형  : 하나 이상의 정수형 상수를 원소로 갖는 열거형의 enum
+  enum 목록에 나열된 것은 문자열이 아니라 **정수형 상수**, 자료형으로 선언한 변수는 **정수형 변수와 동일하게 처리**	
+- 문자열
+- 포인터
+- 배열
+- 구조체
+- 공용체
+- 클래스
+
+
+
+### 변수와 상수, 그리고 표준 입출력
+#### 변수
+
+그 값이 변경될 수 있는 수
+
+변수는 데이터를 저장할 수 있는 메모리 공간의 이름이며, 식별자와 같을 수 없다.
+
+- 전역 변수 : 함수 외부에서 선언되는 변수
+- 지역 변수 :  함수 내에 선언되는 변수
+
+**운영체제에서 메모리 공간할당**
+
+- 스택 세그먼트(Stack Segment) : 지역 변수 및 리턴 주소, 함수가 수행되는 동안만 할당
+- 힙 세그먼트(Heep Segment) : 동적으로 할당되는 메모리
+- 데이터 세그먼트(Data Segment) : 전역 변수 및 정적(static) 변수, 프로그램 종료 시까지 해제되지 않음
+- 코드 세그먼트(Code Segment) : 프로그램의 실행코드
+
+예제 코드 variable.cpp
+
+```
+#include <iostream>
+using namespace std;
+
+int scount = 100;
+
+int Func(void);
+
+int main()
+{
+	Func();
+	cout << "main : count = " << scount << endl;
+	return 0;
+}
+
+int Func()
+{
+	int number = 10;
+
+	cout << "Func : number = " << number << endl;
+	cout << "Func : count = " << scount << endl;
+
+	return 0;
+};
+```
+
+
+
+#### 상수
+
+언제 어디서나 값이 변하지 않는 수
+
+- 리터럴(literal) 상수
+
+  - 논리 상수, 정수형 상수, 실수형 상수, 문자 및 문자열 상수
+- 심볼릭(symbolic) 상수 
+  - 변수선언 시 const 키워드와 함께 초기화되어야 함
+  - 초기화 된 값은 변경 불가능
+
+
+
+#### 표준입출력
+
+C++에서 데이터를 입출력 하는 기능은 iostream 라이브러리에서 제공
+
+- cin : 표준 입력 객체
+- cout : 표준 출력 객체
+
+예제 코드 cin.cpp
+
+```
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int number;
+	char letter;
+	float rnumber;
+
+	cout << "정수 문자 실수 순서대로 입력하세요. --> ";
+	cin >> number >> letter >> rnumber;
+
+	cout << "당신이 입력한 정수는 " << number << "입니다." << endl;
+	cout << "당신이 입력한 문자는 " << letter << "입니다." << endl;
+	cout << "당신이 입력한 실수는 " << rnumber << "입니다." << endl;
+
+	return 0;
+}
 ```
 

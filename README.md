@@ -429,5 +429,280 @@ int main()
 
 ## 프로그램의 흐름을 제어하는 선택문과 반복문
 
+### 선택문
+
+#### if 문: 조건이 참이나 거짓
+
+참 : 수행 결과가 0이 아닌 경우, 거짓 : 수행 결과가 0인 경우
+
+- if 
+- if-else
+
+예제 코드 if-else.cpp
+
+```
+#include <iostream>
+using namespace std;
+int main()
+{
+	int score = 0;
+	cout << "score? ";
+	cin >> score;
+	if (score < 0 || score > 100)
+	{
+		cout << "Invalid score " << score << endl;
+	}
+	else {
+		cout << "Valid score " << score << endl;
+	}
+	return 0;
+}
+```
+
+#### switch 문 : 일정한 값으로 구분 되는 경우
+
+if 문과 같은 조건일 경우 switch 문이 실행속도가 더 빠른다.
+
+예제 코드 switch.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int score = 0;
+
+	cout << "score ? ";
+	cin >> score;
+
+	if (score < 0 || score > 100)
+	{
+		cout << "Invalid score" << score << endl;
+	}
+	else
+	{
+		switch (score / 10)
+		{
+		case 10 :
+
+			break;
+		case 9 :
+			cout << "A 학점" << endl;
+			break;
+		case 8 :
+			cout << "B 학점" << endl;
+			break;
+		case 7 : 
+			cout << "C 학점" << endl;
+			break;
+		case 6 : 
+			cout << "D 학점" << endl;
+			break;
+		default:
+			cout << "F 학점" << endl;
+			break;
+		}
+	}
+
+	return 0;
+}
+```
+
+
+
+### 반복문
+
+동일한 명령문들을 반복적으로 수행
+
+#### while 문
+
+일정한 횟수의 반복보다는 일정한 조건이 만족되는 동안 반복
+
+예제 코드 while.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int number = 0;
+	int sum = 0;
+	cout << "number? ";
+	cin >> number;
+	while (number != -1)
+	{
+		sum = sum + number;
+		cout << "number? ";
+		cin >> number;
+	}
+	cout << sum << endl;
+	return 0;
+}
+```
+
+#### do while 문
+
+반복의 조건이 명령문보다 뒤에 있다.
+
+예제 코드 do-while.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int number = 0, sum = 0;
+
+	do
+	{
+		sum += number;
+		cout << "number? ";
+		cin >> number;
+	} while (number != -1);
+	cout << sum << endl;
+
+	return 0;
+}
+```
+
+#### for 문
+
+일정한 횟수를 반복하는 목적으로 사용
+
+초기식 - **조건식 - 명령문 - 증감식 - 조건식 - 명령문 - 증감식** - ... - 조건식 - 반복종료	
+
+예제 코드 for.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int num = 0, sum = 0;
+
+	for (int i = 0; i < 10; i++)
+	{
+		cout << "num? ";
+		cin >> num;
+		sum += num;
+	}
+
+	cout << sum << endl;
+
+	return 0;
+}
+```
+
+
+
+### 기타 제어문
+
+#### break 문
+
+자신이 속해 있는 반복문을 벗어나고자 할 때  사용하는 명령
+
+예제 코드 break.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int count = 0;
+	char ch;
+	while (true)
+	{
+		cout << "ch? ";
+		cin >> ch;
+		count++;
+
+		if (ch == 'e')
+		{
+			break;
+		}
+	}
+
+	cout << "e 포함 : " << count << endl;
+
+	return 0;
+}
+```
+
+#### continue 문
+
+이후의 명령문을 건너뛰고 반복의 다음 주기를 시작하는 명령문
+
+예제 코드 continue.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	// 0 ~ 9까지 중 5를 제외하고 출력
+	for (int i = 0; i < 10; i++)
+	{
+		if (i == 5)
+		{
+			continue;
+		}
+		cout << i << endl;
+	}
+
+	return 0;
+}
+```
+
+#### goto 문
+
+프로그램이 실행되는 도중 특정 위치로 이동해야 하는 경우 사용하며 goto 문의 대상이 되는 위치에는 label을 붙임
+
+예제 코드 goto.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int num1;
+	cout << "1 또는 2를 입력하세요. ";
+	cin >> num1;
+
+	if (num1 == 1)         // num1이 1이면
+		goto ONE;          // 레이블 ONE으로 즉시 이동
+	else if (num1 == 2)    // num1이 2이면
+		goto TWO;          // 레이블 TWO로 즉시 이동
+	else                   // 1도 아니고 2도 아니면
+		goto EXIT;         // 레이블 EXIT로 즉시 이동
+
+ONE:    // 레이블 ONE
+	printf("1입니다.\n");
+	goto EXIT; // 레이블 EXIT로 즉시 이동
+
+TWO:    // 레이블 TWO
+	printf("2입니다.\n");
+	goto EXIT; // 레이블 EXIT로 즉시 이동
+
+EXIT:    // 레이블 EXIT
+	return 0;
+}
+```
+
+
+
 
 

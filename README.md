@@ -315,3 +315,119 @@ int main()
 }
 ```
 
+
+
+### 연산자의 종류
+
+#### C와 동일한 연산자
+
+연산자는 변수나 상수들을 대상으로 연산하는 기호
+
+연산자의 우선순위를 잘 알아야 올바른 표현식 작성 가능
+
+C에서 지원하는 모든 연산자 지원
+
+- 산술 연산자(+, -, *, /, %)
+- 증감 연산자(++, --)
+- 관계 연산자(>, <, >=, <=, ==, !=)
+- 논리 연산자(&&, ||, !)
+- 비트 연산자 : 메모리의 효율적 사용을 위해 비트 단위로 데이터 처리
+  - & : 비트끼리 AND
+  - | : 비트끼리 OR
+  - ~ : 1의 보수(1은 0, 0은 1로 변환) 
+  - ^ : 비트끼리 XOR(eXclusive OR : 비트의 값이 동일하면 0, 서로 다르면 1)
+  - '>>' n : 오른쪽으로 n비트씩 이동
+  - '<<' n : 왼쪽으로 n비트씩 이동
+- 형변환(cast) 연산자
+- 대입 연산자(=, 축약형)
+- 조건 연산자(? : , ',') 
+
+C++에 추가된 연산자
+
+- 범위지정(::) 연산자 : 변수명 앞에 붙이면 전역변수를 의미
+  예제 코드 ScopeResolutionOperator.cpp
+
+  ```
+  #include <iostream>
+  
+  using namespace std;
+  
+  int count = 100;
+  
+  int Func();
+  
+  int main()
+  {
+  	Func();
+  	::count = 50;
+  	cout << "main : count = " << ::count << endl;
+  	
+  	return 0;
+  }
+  
+  int Func()
+  {
+  	int count = 10;
+  
+  	cout << "Func : count = " << count << endl;
+  	cout << "Func : ::count = " << ::count << endl;
+  
+  	return 0;
+  }
+  ```
+
+- const_cast, dynamic_cast, reinterpret_cast, new / delete, new[] / delete[], .*, -> *, throw
+
+
+
+### namespace
+
+이름이 사용될 수 있는 범위 지정
+
+#### 네임스페이스 사용
+
+**내가 지정한 네임스페이스 공간**과 관련 없는 공간을 구분
+
+#### using 선언
+
+예제 코드 using.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+namespace NS1 {
+	int number;
+	void Test() {
+		cout << "NS1::Test called number = " << number << endl;
+	}
+}
+
+namespace NS2 {
+	int number;
+	int position;
+	void Test() {
+		cout << "NS2::Test called number = " << number << endl;
+	}
+}
+
+int main()
+{
+	NS1::number = 10;
+	NS1::Test();
+
+	using namespace NS2;
+	number = 100;
+	Test();
+
+	return 0;
+}
+```
+
+
+
+## 프로그램의 흐름을 제어하는 선택문과 반복문
+
+
+

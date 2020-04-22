@@ -1,0 +1,2 @@
+C:\Users\Owner\Desktop\coding\CPP-Programming-Learning-at-SWEA\ScopeResolutionOperator\Debug\ScopeResolutionOperator.exe
+C:\Users\Owner\Desktop\coding\CPP-Programming-Learning-at-SWEA\ScopeResolutionOperator\Debug\ScopeResolutionOperator.pdb

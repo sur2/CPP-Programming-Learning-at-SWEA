@@ -704,5 +704,132 @@ EXIT:    // 레이블 EXIT
 
 
 
+## 배열과 포인터
+
+### 배열과 포인터, 그리고 레퍼런스의 개념
+
+#### 배열
+
+자료형이 동일한 데이터들이 메모리에 연속적으로 모여있는 것
+
+#### 포인터
+
+프로그램이 실행되는 공간인 메모리를 가리킴
+
+- 포인터 변수의 선언 시 *** 지정자 이용**
+- 선언하는 변수가 포인터 변수임을 **컴파일러에게 알림**
+- 가리키는 대상이 없을 수도 있고, 달라질 수도 있음
+
+#### 레퍼런스
+
+기존에 존재하는 변수의 메모리를 함께 공유
+
+- 레퍼런스 변수는 **& 지정자**를 붙여 선언
+- **선언과 동시에 어떤 변수와 초기화**할 것인지를 명시함
+  - 변수 선언은 메모리 할당 / 레퍼런스 변수 선언은 어떤 변수를 참조할 지에 대한 선언
+- 나중에 다른 변수를 참조하도록 변경 불가
+
+
+
+### 1차원 배열과 다차원 배열
+
+#### 1차원 배열
+
+- 배열명은 **배열의 첫 번째 주소**이며 **상수의 성격**을 가진다.
+
+- 배열의 원소(elementary)들은 **첨자(subscript)를 이용**하여 표현
+
+- **C 스타일의 문자열 처리 함수**
+  - char * strcpy(char * dest, const char * src) : src의 문자열을 dest의 배열로 복사하는 문자열 복사함수
+  - char * strcat(char * dest, const char * src) : dest가 가리키는 문자열 뒤에 src가 가리키는 문자열을 덧붙이는 함수
+  - int strcmp(const char * s1, const char * s2) : s1과 s2가 가리키는 문자열을 비교하여 두 문자열이 서로 같으면 0, 서로 다르면 0이 아닌 값을 반환함
+  - size_t strlen(const char * s) : 문자열의 길이를 바이트 단위로 계산해서 반환하며, 문자열의 길이에 NULL은 개수에 포함하지 않는다.
+
+- C 스타일 문자열 처리함수 사용 시 소스코드에 헤더 파일 포함
+
+- **string 클래스**를 사용하는 것이 문자열의 처리가 쉬워 더 자주 사용됨
+
+예제 코드 array.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+#define LEN 5
+
+int main()
+{
+
+	int number[LEN] = {};
+	int i = 0, sum = 0;
+
+	for (i = 0; i < LEN; i++)
+	{
+		cout << "정수를 입력하세요 --> ";
+		cin >> number[i];
+
+		sum += number[i];
+	}
+
+	cout << "sum = " << sum << endl;
+
+	return 0;
+}
+```
+
+#### 2차원 배열
+
+예제 코드 TwoDimensionalArray.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+#define ROWMAX 5
+#define COLMAX 3
+
+int main()
+{
+	int score[ROWMAX][COLMAX] = {
+		{78, 65, 80},
+		{93, 88, 95},
+		{85, 97, 94},
+		{66, 79, 82},
+		{84, 87, 88}
+	};
+
+	int i = 0, j = 0, sum = 0;
+
+	float avg[ROWMAX] = {};
+
+	for (i = 0; i < ROWMAX; i++)
+	{
+		sum = 0;
+		for (j = 0; j < COLMAX; j++)
+		{
+			sum += score[i][j];
+		}
+		avg[i] = (float) sum / COLMAX;
+	}
+
+	for (i = 0; i < ROWMAX; i++)
+	{
+		cout << avg[i] << endl;
+	}
+
+	return 0;
+}
+```
+
+
+
+### 포인터의 사용
+
+### 레퍼런스의 사용
+
+
+
 
 

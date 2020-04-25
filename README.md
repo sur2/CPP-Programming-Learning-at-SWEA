@@ -823,11 +823,177 @@ int main()
 }
 ```
 
+#### 다차원 배열
+
+n - 1 차원에서 n 차원의 배열이 될 때 마다 행 첨자를 붙여나간다.
+
 
 
 ### 포인터의 사용
 
-### 레퍼런스의 사용
+#### 포인터 변수
+
+저장된 메모리의 주소가 가리키는 메모리의 내용(저장된 값)을 참조할 수 있다.
+
+포인터 변수도 변수와 마찬가지로 선언 시 **메모리가 할당된다.** (운영체제, 플랫폼 등에 따라 상이함)
+
+| 주소 연산자 | 의미                                                         |
+| ----------- | ------------------------------------------------------------ |
+| &           | 뒤에 따라오는 변수의 주소                                    |
+| *           | 포인터 변수 앞에 쓰이는 연산자로 포인터 변수가 가리키는 곳의 내용(값) |
+
+포인터 변수는 **+, -, ++, --** 연산자만 사용가능
+
+**포인터 변수의 자료형 크기만큼 연산**이 이루어진다. (char 포인터는 1, int 포인터는 4 ,,, 메모리 주소값이 커짐)
+
+#### 포인터 변수와 배열의 관계
+
+배열의 원소들은 주소값은 자료형의 크기만큼 차이가 난다.
+
+``p + i = &number[i] = number + i = &p[i]``, ``*(p + i) = number[i] = *(number + i) = p[i]``
+
+예제 코드 pointer.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+#define MAX 5
+
+int main()
+{
+	int num[MAX], * p;
+	double dnum[MAX], * dp;
+
+	// 배열명은 배열의 첫 번째 주소를 가리킴
+	p = num;
+	dp = dnum;
+
+	cout << "정수 5개를 입력하세요. " << endl;
+	for (int i = 0; i < MAX; i++)
+	{
+		cin >> p[i];
+	}
+
+	cout << "실수 5개를 입력하세요. " << endl;
+	for (int i = 0; i < MAX; i++)
+	{
+		cin >> dp[i];
+	}
+
+	cout << "입력받은 수는 다음과 같습니다. " << endl;
+
+	for (int i = 0; i < MAX; i++)
+	{
+		cout << "*(p + " << i << ") = " << *(p + i);
+		cout << " , *(dp + " << i << ") = " << *(dp + i) << endl;
+	}
+
+	return 0;
+}
+```
+
+#### 동적 메모리
+
+프로그램 실행 시 할당 받는 메모리(미리 선언되어 할당 받지 않음),  힙 세그먼트에 할당받음
+
+예제 코드 DynamicMemoryAllocation.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int size = 0;
+
+	cout << "배열의 크기는 ? ";
+	cin >> size;
+	
+	// 메모리 동적 할당
+	int* p = new int[size];
+	if (p == NULL)
+	{
+		cout << "메모리 할당 실패 : int[" << size << "]" << endl;
+		return 1;
+	}
+	double* dp = new double[size];
+	if (dp == NULL)
+	{
+		cout << "메모리 할당 실패 : double[" << size << "]" << endl;
+		return 1;
+	}
+	cout << "정수 " << size << "개를 입력하세요. " << endl;
+	for (int i = 0; i < size; i++)
+	{
+		cin >> p[i];
+	}
+
+	cout << "실수 " << size << "개를 입력하세요. " << endl;
+	for (int i = 0; i < size; i++)
+	{
+		cin >> dp[i];
+	}
+
+	cout << "입력받은 수는 다음과 같습니다. " << endl;
+
+	for (int i = 0; i < size; i++)
+	{
+		cout << "*(p + " << i << ") = " << *(p + i);
+		cout << " , *(dp + " << i << ") = " << *(dp + i) << endl;
+	}
+
+	// 동적 메모리 해제
+	delete[] p;
+	p = NULL;
+	delete[] dp;
+	dp = NULL;
+
+	return 0;
+}
+```
+
+#### 포인터 배열
+
+각 원소가 모두 포인터 자료형인 배열
+
+예제 코드 PointerArray.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	// const char* array[] = {char* ch0, char* ch1, char* ch2 ,,,}
+	const char* cityNama[] = { "Seoul", "Busan", "Daeku", "Incheon", "Daejeon", "Ulsan", "kwangju", NULL };
+	int len = sizeof(cityNama) / sizeof(char*);
+	for (int i = 0; i < len - 1; i++)
+	{
+		cout << cityNama[i] << endl;
+	}
+	return 0;
+}
+```
+
+#### 함수 포인터
+
+포인터 변수를 이용하여 함수 호출
+
+함수의 시작 주소를 저장하기 위해 함수 포인터 변수 선언
+
+``리턴타입(*함수포인터변수명)([자료형변수명, ... ;]);``
+
+``int (*calc)(int num1, int num2);``, ``void (*calc) (int, int);``
+
+``calc : 함수 포인터 변수로 함수의 시작 주소를 대입하여 사용 가능  ``
+
+
+
+### 레퍼런스의 사용 
 
 
 

@@ -1101,6 +1101,16 @@ int main()
 	cout << "number = " << number << endl;
 	cout << "reference = " << rnum << endl;
 
+	cout << "&number = " << &number << endl;
+	cout << "&rnum = " << &rnum << endl;
+
+	cout << "sizeof(char&) = " << sizeof(char&) << endl;
+	cout << "sizeof(short&) = " << sizeof(short&) << endl;
+	cout << "sizeof(int&) = " << sizeof(int&) << endl;
+	cout << "sizeof(long&) = " << sizeof(long&) << endl;
+	cout << "sizeof(float&) = " << sizeof(float&) << endl;
+	cout << "sizeof(double&) = " << sizeof(double&) << endl;
+
 	return 0;
 }
 ```

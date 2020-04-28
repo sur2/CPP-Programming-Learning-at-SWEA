@@ -985,15 +985,129 @@ int main()
 
 함수의 시작 주소를 저장하기 위해 함수 포인터 변수 선언
 
+서로 다른 환경에서 호출, 시스템 소프트웨어 작성, 동적 라이브러리 함수에 사용됨
+
 ``리턴타입(*함수포인터변수명)([자료형변수명, ... ;]);``
 
 ``int (*calc)(int num1, int num2);``, ``void (*calc) (int, int);``
 
 ``calc : 함수 포인터 변수로 함수의 시작 주소를 대입하여 사용 가능  ``
 
+예제 코드 FunctionPointer.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+int add(int x, int y);
+int subtract(int x, int y);
+
+int main()
+{
+	// calc 함수 포인터 변수 선언
+	int (*calc)(int, int);
+
+	// 함수 포인터 변수에 함수의 시작 주소를 대입
+	calc = add;
+	cout << calc(64, 178) << endl;
+
+	// 함수 포인터 변수에 함수의 시작 주소를 대입
+	calc = subtract;
+	cout << calc(153, 98) << endl;
+
+	return 0;
+}
+
+
+int add(int x, int y)
+{
+	return x + y;
+}
+
+int subtract(int x, int y)
+{
+	return x - y;
+}
+```
+
+#### void 포인터
+
+주소를 저장하는 자료형, 어떤 자료형의 주소이든 저장가능 (메모리의 내용 참조 시 형 변환)
+
+#### 포인터 상수
+
+const 키워드와 함께 선언하여 사용, 주로 함수의 인자 전달 시 인자의 값을 변경하지 못하게 하기 위함
+
+**const 위치에 따라 의미가 달라진다.**
+
+- const가 자료형 앞에 오는 경우
+
+  ```
+  int number1 = 100;
+  int number2 = 200;
+  const int* p = &number1;
+  *p = number2; // 옳바르지 않음, 메모리 내용 변경 불가
+  p = &number2; // 옳바른 방법, 포인터 변수 자체에 대한 변화
+  ```
+
+- const가 포인터 앞에 오는 경우
+
+  ```
+  int number1 = 100;
+  int number2 = 200;
+  int* const p = &number1;
+  *p = number2; // 옳바른 방법, 메모리 내용 변경 가능 
+  p = &number2; // 옳바르지 않은 방법, 포인터 변수 변경 불가
+  ```
+
+- const가 자료형 앞과 포인터 앞 양쪽에 오는 경우
+
+  ```
+  int number = 30;
+  int test = 0;
+  const int * const p = &number;
+  *p = test; // 옳바르지 않은 방법, 포인터 변수 변경 불가
+  p = &test; // 옳바르지 않은 방법, 메모리 내용 변경 불가
+  ```
+
 
 
 ### 레퍼런스의 사용 
+
+#### 레퍼런스의 선언
+
+레퍼런스는 기존에 존재하는 변수의 메모리를 함께 사용 (다른 변수에 대한 별명)
+
+레퍼런스는 참조하는 변수를 다루는 방법과 동일하게 사용
+
+레퍼런스는 선언 시 반드시 초기화해야 함 (초기화된 레퍼런스는 다른 변수를 참조할 수 없음)
+
+예제 코드 reference.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int number = 0;
+	// 레퍼런스 변수가 int형 number 변수를 참조하는 것으로 초기화
+	int& rnum = number;
+	// rnum은 number와 같은 메모리 참조하여 number = 10과 같음
+	rnum = 10;
+
+	cout << "number = " << number << endl;
+	cout << "reference = " << rnum << endl;
+
+	return 0;
+}
+```
+
+
+
+
 
 
 

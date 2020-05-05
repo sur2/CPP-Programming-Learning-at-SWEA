@@ -1183,15 +1183,523 @@ int main()
 }
 ```
 
+### 구조체 배열과 포인터
+
+#### 구조체 배열
+
+서로 관련된 정보들을  모아서 한꺼번에 처리할 수 있는 자료 구조로 표현하는 기본 단위
+
+예제 코드 StructArray.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+#define MAX 10
+
+int main()
+{
+	struct MEMINFO {
+		char name[20];
+		int salary;
+	};
+
+	MEMINFO person[MAX] = {
+		{"김대표", 10000},
+		{"이부장", 7500},
+		{"홍과장", 6000},
+	};
+
+	int count = 3, i = 0;
+
+	for (i = count; i < MAX; i++)
+	{
+		cout << "이름은? ";
+		cin >> person[i].name;
+		// 두 문자열이 같으면 0을 반환
+		if (strcmp(person[i].name, "end") == 0)
+		{
+			break;
+		}
+
+		cout << "연봉은? ";
+		cin >> person[i].salary;
+		count++;
+	}
+
+	for (i = 0; i < count; i++)
+	{
+		cout << person[i].name << "의 연봉은" << person[i].salary << "입니다." << endl;
+	}
+
+	return 0;
+}
+```
+
+#### 구조체 포인터
+
+주소를 저장할 수 있는 변수로 그 구조체 포인터 변수가 가리키는 메모리의 자료형이 구조체이다.
+
+예제 코드 StructPointer.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+#define MAX 10
+
+int main()
+{
+	struct MEMINFO {
+		char name[20];
+		int salary;
+	};
+
+	MEMINFO person[MAX] = {
+		{"김대표", 10000},
+		{"이부장", 7500},
+		{"홍과장", 6000},
+	};
+
+	MEMINFO* ptr = NULL;
+	ptr = person;
+
+	int count = 3;
+
+	for (; count < MAX; count++)
+	{
+		cout << "이름은? ";
+		cin >> (ptr + count)->name;
+
+		if (strcmp((ptr + count)->name, "end") == 0)
+		{
+			break;
+		}
+
+		cout << "연봉은? ";
+		cin >> (*(ptr + count)).salary;
+	}
+
+	for (; count > 0; count--)
+	{
+		cout << (ptr + count)->name << "의 연봉은 " << (*(ptr + count)).salary << "입니다." << endl;
+	}
+
+	return 0;
+}
+```
+
+#### 구조체와 동적 할당
+
+예제 코드 DynamicMemoryStructArray.cpp
+
+```
+#include <iostream>
+
+struct MEMINFO {
+	char name[20];
+	int salary;
+};
+
+int main()
+{
+	int size = 0;
+
+	std::cout << "배열의 크기는? ";
+	std::cin >> size;
+
+	MEMINFO* ptr = new MEMINFO[size];
+
+	int count = 0;
+
+	for (int i = 0; i < size; i++)
+	{
+		std::cout << "이름은? ";
+		std::cin >> (ptr + i)->name;
+
+		if (strcmp((ptr + i)->name, "end") == 0)
+		{
+			break;
+		}
+
+		std::cout << "연봉은? ";
+		std::cin >> (*(ptr + i)).salary;
+
+		count++;
+	}
+
+	for (int i = 0; i < count; i++)
+	{
+		std::cout << (ptr + i)->name << "의 연봉은 " << (*(ptr + i)).salary << "입니다." << std::endl;
+	}
+
+	delete[] ptr;
+
+	return 0;
+}
+```
+
 
 
 ### 공용체
 
+**같은 메모리 공간을 여러 멤버가 함께 공유하는 자료형**
+
+```
+union 자료형이름 { 						union KEY {
+	자료형 멤버변수이름;						unsigned int input;
+}변수명;									unsigned short code[2];
+										}key;
+// 자료형이름과 변수명 중 하나는 생략가능										
+```
+
+#### 바이트 순서
+
+호스트 바이트 순서 : CPU 아키텍처에 따라 데이터를 메모리에 저장하고 읽어오는 순서
+
+예제 코드 union.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	// 전체 크기는 4바이트
+	// 전체 input 멤버
+	// 각 1바이트 씩 char배열 멤버로 접근
+	union KEY {
+		unsigned int input;
+		unsigned char byte[4];
+	};
+
+	KEY key;
+
+	// 4바이트 값 초기화
+	key.input = 0xc0a8a001;
+
+	for (int i = 0; i < 4; i++)
+	{
+		cout << (int)key.byte[i] << endl;
+
+	}
+	return 0;
+}
+```
 
 
 
+## Function
 
+**특정 동작을 수행**하는 일정 프로그램의 단위
 
+### 함수의 정의와 호출
 
+#### 함수 정의
 
+함수 선언 - 함수 정의 - 함수 호출
+
+예제 코드 function.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+// 함수 선언
+void TestFunc(int);
+
+int main(void)
+{
+	cout << "main function start" << endl;
+
+	// 함수 호출
+	TestFunc(10);
+
+	cout << "main function end" << endl;
+
+	return 0;
+}
+// 함수 정의
+void TestFunc(int num) 
+{
+	cout << "TestFunc : num = " << num << endl;
+}
+```
+
+**디폴트 매개변수** : 함수 호출 시 인자를 생략할 경우 자동으로 디폴트 값이 사용되는 것 (왼쪽부터 사용)
+
+### 매개변수 전달 방법
+
+#### 값에 의한 전달
+
+함수 호출 시 인자의 값이 함수의 매개변수로 대입 : 함수를 호출한 쪽에는 아무 영향 없음
+
+예제 코드 CallByValue.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+void swap(int, int);
+
+int main(void)
+{
+	int x, y;
+
+	cout << "두 수를 입력하십시오 ---> ";
+	cin >> x >> y;
+
+	cout << "main x = " << x << ", y = " << y << endl;
+	
+	swap(x, y);
+
+	return 0;
+}
+
+void swap(int x, int y)
+{
+	int temp = 0;
+
+	temp = x;
+	x = y;
+	y = temp;
+
+	cout << "swap x = " << x << ", y = " << y << endl;
+}
+```
+
+#### 주소에 의한 전달
+
+호출한 함수의 메모리 주소 전달 : 호출된 함수에서 호출한 메모리의 간접 참조 허용
+
+예제 코드 CallByPointer.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+void swap(int*, int*);
+
+int main(void)
+{
+	int x, y;
+
+	cout << "두 수를 입력하십시오 ---> ";
+	cin >> x >> y;
+
+	cout << "main x = " << x << ", y = " << y << endl;
+	swap(&x, &y);
+	// main의 멤버 변수 x, y의 값이 서로 바뀌어 있음
+	cout << "main x = " << x << ", y = " << y << endl;
+
+	return 0;
+}
+
+void swap(int* x, int* y)
+{
+	int temp = 0;
+
+	temp = *x;
+	*x = *y;
+	*y = temp;
+
+	cout << "swap x = " << *x << ", y = " << *y << endl;
+}
+```
+
+#### 레퍼런스에 의한 전달
+
+호출한 함수의 메모리 정보 공유 : 호출된 함수에서 호출한 메모리의 직접 참조 및 변경 가능
+
+예제 코드 CallByReference.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+void swap(int&, int&);
+
+int main(void)
+{
+	int x, y;
+
+	cout << "두 수를 입력하십시오 ---> ";
+	cin >> x >> y;
+
+	swap(x, y);
+	// main의 멤버 변수 x, y의 값이 서로 바뀌어 있음
+	cout << "main x = " << x << ", y = " << y << endl;
+
+	return 0;
+}
+
+void swap(int& x, int& y)
+{
+	int temp = 0;
+
+	temp = x;
+	x = y;
+	y = temp;
+
+	cout << "swap x = " << x << ", y = " << y << endl;
+}
+```
+
+### 인라인 함수
+
+#### 인라인 함수
+
+컴파일 시 함수 호출을 실제 함수 코드로 대처하여 오버헤드를 줄임
+
+예제 코드 inline.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+// inline 함수는 호출 되기 전 미리 선언
+inline int square(int num)
+{
+	return num * num;
+}
+
+int main(void)
+{
+	int num;
+	cout << "정수를 입력하시오 --> ";
+	cin >> num;
+
+	cout << num << " x " << num << " = " << square(num) << endl;
+
+	return 0;
+}
+```
+
+### 함수 오버로딩
+
+#### Function overloading 함수 중복정의
+
+함수명은 동일하나 **매개변수 자료형 또는 개수가 다른 함수를 여러 개 만들 수 있는 기능**
+
+예제 코드 overloading.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+int sum(int n1, int n2) {
+	return n1 + n2;
+}
+
+int sum(int n1, int n2, int n3) {
+	return n1 + n2 + n3;
+}
+
+double sum(double d1, double d2, double d3) {
+	return d1 + d2 + d3;
+}
+
+int sum(int arr[], int size) {
+	int total = 0;
+	for (int i = 0; i < size; i++)
+	{
+		total += arr[i];
+	}
+
+	return total;
+}
+
+int main(void)
+{
+	cout << "sum(10, 20) = " << sum(10, 20) << endl;
+	cout << "sum(10, 20, 30) = " << sum(10, 20, 30) << endl;
+	cout << "sum(1.5, 8.7, 9.3) = " << sum(1.5, 8.7, 9.3) << endl;
+
+	int arr[] = { 10, 20, 30, 40, 50 };
+	cout << "sum(arr, size) = " << sum(arr, sizeof(arr) / sizeof(int)) << endl;
+
+	return 0;
+}
+```
+
+### 함수 템플릿
+
+#### 템플릿
+
+일반화 프로그래밍(Generic Programming) 지원
+
+템플릿 : 모든 자료형(기본형 뿐만 아니라 구조체와 같은 사용자 정의형 포함)에 적용될 수 있는 **범용형(Generic Type)** 사용
+
+#### 함수 템플릿의 특수화(Specialization)
+
+함수 템플릿이 정상적으로 처리될 수 없는 **특별한 상황에서 함수 템플릿 대신 사용될 수 있는 함수를 정의**하는 것
+
+예제 코드 FunctionTemplate.cpp
+
+```
+#include <iostream>
+
+using namespace std;
+
+struct TYPE {
+	int no;
+	char name[20];
+};
+
+// 기본 함수 템플릿
+template <typename T>
+T max(T& x, T& y);
+
+// 특수 함수 템플릿(기본 함수 템플릿의 특수화)
+template <>
+TYPE max(TYPE& x, TYPE& y);
+
+// 일반 함수
+char* max(char* x, char* y);
+
+int main(void)
+{
+	int x = 10, y = 20;
+	double dx = 7.5, dy = 6.8;
+	cout << "max(10, 20) = " << max(x, y) << endl;
+	cout << "max(7.5, 6.8) = " << max(dx, dy) << endl;
+	const char* a = "hello", * b = "hi";
+	cout << "max(\"hello\", \"hi\") = " << max(a, b) << endl;
+	TYPE sx = {10, "kim"};
+	TYPE sy = {20, "lee"};
+	TYPE z = max(sx, sy);
+	cout << "main(TYPE sx, TYPE sy) = " << z.no << ", " << z.name << endl;
+
+	return 0;
+}
+
+// 기본 함수 템플릿
+template <typename T>
+T max(T& x, T& y)
+{
+	return x > y ? x : y;
+}
+
+// 일반 함수
+char* max(char* x, char* y)
+{
+	return strlen(x) > strlen(y) ? x : y;
+}
+
+// 특수 함수 템플릿
+template <>
+TYPE max(TYPE& x, TYPE& y)
+{
+	return x.no > y.no ? x : y;
+}
+```
 

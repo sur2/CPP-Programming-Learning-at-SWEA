@@ -1,0 +1,2 @@
+C:\Users\Owner\source\repos\DynamicMemoryStructArray\Debug\DynamicMemoryStructArray.exe
+C:\Users\Owner\source\repos\DynamicMemoryStructArray\Debug\DynamicMemoryStructArray.pdb

@@ -1,0 +1,2 @@
+C:\Users\Owner\source\repos\StructArray\Debug\StructArray.exe
+C:\Users\Owner\source\repos\StructArray\Debug\StructArray.pdb
